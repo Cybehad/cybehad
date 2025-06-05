@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Schema::defaultStringLength(191);
         // Notification::macro('rateLimit', function ($limit = 10, $interval = 1) {
         //     $this->withDelay(now()->addMinutes(rand(0, $interval * 60)));
 
