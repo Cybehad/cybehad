@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->uuid('category_id');
             $table->foreign('category_id')
                 ->constrained()->references('id')->on('categories');
