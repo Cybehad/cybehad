@@ -150,10 +150,10 @@
                     <a href="#"
                         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</a>
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <a href="{{ route('login') }}"
+                        <a href="{{ route('login') }}" wire:navigate
                             class="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Sign
                             In</a>
-                        <a href="{{ route('register') }}"
+                        <a href="{{ route('register') }}" wire:navigate
                             class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">Get
                             Started</a>
                     </div>
