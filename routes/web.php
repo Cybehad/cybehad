@@ -33,7 +33,7 @@ Route::get('/services', function () {
 
 Route::middleware(['auth'])->group(function () {
     Volt::route('/posts/{post}', PostShowAlias::class)->name('posts.show');
-    Volt::route('/profile/{user}', PostShowAlias::class)->name('profile');
+    Volt::route('/profile/{user}', PostShowAlias::class)->name('profile.show');
     Volt::route('/posts/category/{category}', PostListAlias::class)->name('posts.category');
     Volt::route('/posts/tags/{tag}', PostListAlias::class)->name('posts.tag');
 });
