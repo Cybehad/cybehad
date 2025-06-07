@@ -55,7 +55,7 @@
         }
     </style>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     @livewireStyles
 </head>
 
@@ -66,11 +66,7 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <a href="/" class="flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
+                    <img src={{ Vite::asset('resources/img/cybehad.svg') }}  height="30" width="30"/>
                     <span class="text-xl font-bold text-gray-900 dark:text-white">Cybehad</span>
                 </a>
 
@@ -91,66 +87,82 @@
                 <!-- Auth Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
                     @guest
-                    <a href="{{ route('login') }}" wire:navigate
-                        class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition whitespace-nowrap">Sign
-                        In</a>
-                    <a href="{{ route('register') }}" wire:navigate
-                        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition">Register</a>
+                        <a href="{{ route('login') }}" wire:navigate
+                            class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition whitespace-nowrap">Sign
+                            In</a>
+                        <a href="{{ route('register') }}" wire:navigate
+                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition">Register</a>
                     @endguest
                 </div>
                 <div class="flex items-center space-x-4">
                     @auth
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="flex items-center focus:outline-none">
-                            <x-codicon-account class="w-8 h-8 rounded-full border-2 border-indigo-600 dark:border-indigo-400 bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-400" />
-                            <svg class="w-4 h-4 ml-1 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div x-show="open" @click.away="open = false"
-                            class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50"
-                            x-transition>
-                            <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
-                                class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <x-codicon-settings class="size-5 mr-4" />
-                                Settings
-                            </a>
-                            <a href="{{ route('dashboard') }}"
-                                class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <x-codicon-dashboard class="size-5 mr-4" />
-                                Dashboard
-                            </a>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit"
-                                    class="flex items-center w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <x-codicon-arrow-left class="size-5 mr-4" />
-                                    Logout
+                        <div x-data="{ open: false }" class="relative" @click.outside="open ? open = false : ''">
+                            <button @click="open = !open" class="flex items-center focus:outline-none">
+                                <x-codicon-account
+                                    class="w-8 h-8 rounded-full border-indigo-600 dark:border-indigo-400 bg-indigo-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400" />
+                                <svg class="w-4 h-4 ml-1 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div x-show="open" @click.away="open = false"
+                                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50"
+                                x-transition>
+                                <a href="{{ route('dashboard') }}" wire:navigate
+                                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <x-codicon-dashboard class="size-5 mr-4" />
+                                    Dashboard
+                                </a>
+                                <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
+                                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <x-codicon-settings class="size-5 mr-4" />
+                                    Settings
+                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex items-center w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <x-codicon-arrow-left class="size-5 mr-4" />
+                                        Logout
+                                    </button>
+                                </form>
+                                <hr class="my-2 border-t border-gray-200 dark:border-gray-700">
+                                <!-- Dark Mode Toggle Button -->
+                                <button
+                                    type="button"
+                                    x-data="{ dark: localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
+                                    x-init="$watch('dark', val => { document.documentElement.classList.toggle('dark', val); localStorage.setItem('theme', val ? 'dark' : 'light') })"
+                                    @click="dark = !dark"
+                                    class="px-4 py-2 text-gray-600 flex dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none transition"
+                                    aria-label="Toggle dark mode"
+                                >
+                                    <svg class="w-6 h-6 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!dark">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.95 7.07l-.71-.71M4.05 4.93l-.71-.71M12 7a5 5 0 100 10 5 5 0 000-10z" />
+                                    </svg>
+                                    <svg class="w-6 h-6 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="dark">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
+                                    </svg>
+                                    <span x-text="dark ? 'Dark' : 'Light'"></span>
                                 </button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
                     @endauth
-                <!-- Dark Mode Toggle Button -->
-                <button id="dark-mode-toggle" type="button" class="md:ml-4 md:mr-0 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none transition" aria-label="Toggle dark mode">
-                    <svg id="dark-mode-icon-sun" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.95 7.07l-.71-.71M4.05 4.93l-.71-.71M12 7a5 5 0 100 10 5 5 0 000-10z" />
-                    </svg>
-                    <svg id="dark-mode-icon-moon" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-                    </svg>
-                </button>
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 focus:outline-none">
-                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button"
+                        class="md:hidden text-gray-600 dark:text-gray-300 focus:outline-none">
+                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
@@ -169,25 +181,25 @@
                         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</a>
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
                         @guest
-                        <a href="{{ route('login') }}" wire:navigate
-                            class="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Sign
-                            In</a>
-                        <a href="{{ route('register') }}" wire:navigate
-                            class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">Get
-                            Started</a>
+                            <a href="{{ route('login') }}" wire:navigate
+                                class="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Sign
+                                In</a>
+                            <a href="{{ route('register') }}" wire:navigate
+                                class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">Get
+                                Started</a>
                         @endguest
                         @auth
-                        <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
-                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Profile</a>
-                        <a href="{{ route('dashboard') }}"
-                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Dashboard</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">
-                                Logout
-                            </button>
-                        </form>
+                            <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
+                                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Profile</a>
+                            <a href="{{ route('dashboard') }}"
+                                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Dashboard</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">
+                                    Logout
+                                </button>
+                            </form>
                         @endauth
                     </div>
                 </div>
@@ -708,19 +720,12 @@
                 closeIcon.classList.add('hidden');
             }
         });
-
-        // Dark mode toggle (if you want to add a toggle button)
-        // On page load, set dark mode based on localStorage
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
         } else if (localStorage.getItem('theme') === 'light') {
             document.documentElement.classList.remove('dark');
         }
-        document.getElementById('dark-mode-toggle').addEventListener('click', function () {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
+
     </script>
 
     @livewireScripts

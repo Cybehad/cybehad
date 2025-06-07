@@ -4,7 +4,7 @@
         <header class="mb-10">
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('profile', $post->user) }}" class="flex items-center group">
+                    <a href="{{ route('profile.user', $post->user) }}" class="flex items-center group">
                         <img src="{{ $post->user->avatar_url ?: asset('images/default-avatar.png') }}"
                             alt="{{ $post->user->name }}"
                             class="w-10 h-10 rounded-full ring-2 ring-indigo-100 dark:ring-gray-700 group-hover:ring-indigo-300 transition">
@@ -170,7 +170,7 @@
                 @foreach($comments as $comment)
                     <div class="border-b border-gray-100 dark:border-gray-700 pb-6 last:border-0">
                         <div class="flex items-start space-x-4">
-                            <a href="{{ route('profile', $comment->user) }}" class="flex-shrink-0">
+                            <a href="{{ route('profile.user', $comment->user) }}" class="flex-shrink-0">
                                 <img src="{{ $comment->user->avatar_url ?: asset('images/default-avatar.png') }}"
                                     alt="{{ $comment->user->name }}"
                                     class="w-10 h-10 rounded-full ring-2 ring-gray-100 dark:ring-gray-700 hover:ring-indigo-300 transition">
@@ -178,7 +178,7 @@
                             <div class="flex-1">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <a href="{{ route('profile', $comment->user) }}"
+                                        <a href="{{ route('profile.user', $comment->user) }}"
                                             class="font-medium text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                                             {{ $comment->user->name }}
                                         </a>

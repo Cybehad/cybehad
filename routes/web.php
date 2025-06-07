@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('/profile/{user}', PostShowAlias::class)->name('profile.show');
     Volt::route('/posts/category/{category}', PostListAlias::class)->name('posts.category');
     Volt::route('/posts/tags/{tag}', PostListAlias::class)->name('posts.tag');
+    Route::get('/profile/{user}', function ($user) {
+        return redirect()->route('profile.show', ['user' => $user]);
+    })->name('profile.user');
 });
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
     ->name('newsletter.subscribe');
