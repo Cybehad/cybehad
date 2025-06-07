@@ -102,9 +102,7 @@
                     @auth
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center focus:outline-none">
-                            <svg class="w-8 h-8 rounded-full border-2 border-indigo-600 dark:border-indigo-400 bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2a1 1 0 001 1h14a1 1 0 001-1v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
+                            <x-codicon-account class="w-8 h-8 rounded-full dark:border-indigo-400 bg-indigo-100 dark:bg-indigo-700 text-gray-600 dark:text-indigo-400" />
                             <svg class="w-4 h-4 ml-1 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
@@ -114,42 +112,24 @@
                             x-transition>
                             <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
                                 class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <svg class="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                Profile
+                                <x-codicon-settings class="size-5 mr-4" />
+                                Settings
                             </a>
                             <a href="{{ route('dashboard') }}"
                                 class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <svg class="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0v6m0 0H7m6 0h6" />
-                                </svg>
+                                <x-codicon-dashboard class="size-5 mr-4" />
                                 Dashboard
                             </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
                                     class="flex items-center w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <svg class="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
-                                    </svg>
+                                    <x-codicon-arrow-left class="size-5 mr-4" />
                                     Logout
                                 </button>
                             </form>
                         </div>
                     </div>
-                        {{-- <a href="{{ route('profile.show', auth()->id()) }}" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
-                            {{ auth()->user()->name }}
-                        </a>
-                        <form method="POST" action="{{ route('logout') }}" x-data>
-                            @csrf
-                            <button type="submit" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
-                                Logout
-                            </button>
-                        </form> --}}
                     @endauth
                 <!-- Dark Mode Toggle Button -->
                 <button id="dark-mode-toggle" type="button" class="md:ml-4 md:mr-0 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none transition" aria-label="Toggle dark mode">
@@ -188,12 +168,27 @@
                     <a href="#"
                         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</a>
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                        @guest
                         <a href="{{ route('login') }}" wire:navigate
                             class="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Sign
                             In</a>
                         <a href="{{ route('register') }}" wire:navigate
                             class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">Get
                             Started</a>
+                        @endguest
+                        @auth
+                        <a href="{{ route('settings.profile', auth()->id()) }}" wire:navigate
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Profile</a>
+                        <a href="{{ route('dashboard') }}"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Dashboard</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="block w-full px-3 py-2 mt-2 rounded-md text-base font-medium text-center text-white bg-indigo-600 hover:bg-indigo-700">
+                                Logout
+                            </button>
+                        </form>
+                        @endauth
                     </div>
                 </div>
             </div>
