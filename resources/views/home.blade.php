@@ -102,7 +102,7 @@
                     @auth
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center focus:outline-none">
-                            <x-codicon-account class="w-8 h-8 rounded-full dark:border-indigo-400 bg-indigo-100 dark:bg-indigo-700 text-gray-600 dark:text-indigo-400" />
+                            <x-codicon-account class="w-8 h-8 rounded-full border-2 border-indigo-600 dark:border-indigo-400 bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-400" />
                             <svg class="w-4 h-4 ml-1 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
