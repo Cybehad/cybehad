@@ -3,7 +3,7 @@
 namespace App\Livewire\Frontend;
 
 use Livewire\Component;
-use App\Models\NewsletterSubscription;
+use App\Models\NewsletterSubscription as NewsletterSubscriptions;
 use Illuminate\Support\Str;
 
 class NewsletterSubscription extends Component
@@ -19,7 +19,7 @@ class NewsletterSubscription extends Component
     {
         $this->validate();
 
-        NewsletterSubscription::create([
+        NewsletterSubscriptions::create([
             'email' => $this->email,
             'token' => Str::random(32),
             'is_active' => true,

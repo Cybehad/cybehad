@@ -3,7 +3,7 @@
 namespace App\Livewire\Advertising;
 
 use Livewire\Component;
-use App\Models\AdvertisingSpot;
+use App\Models\AdvertisingSpot as AdvertisingSpots;
 
 class AdvertisingSpot extends Component
 {
@@ -16,7 +16,7 @@ class AdvertisingSpot extends Component
 
     public function render()
     {
-        $spot = AdvertisingSpot::where('location', $this->location)
+        $spot = AdvertisingSpots::where('location', $this->location)
             ->where('is_active', true)
             ->where(function($query) {
                 $query->whereNull('start_date')
