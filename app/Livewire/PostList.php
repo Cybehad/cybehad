@@ -46,6 +46,9 @@ class PostList extends Component
             ->published()
             ->latest('published_at')
             ->paginate($this->perPage);
-        return view('livewire.post-list', ['posts' => $posts, 'categories' => Category::all()]);
+        return view('livewire.post-list', ['posts' => $posts, 'categories' => Category::all()])
+            ->layout('components.layouts.custom', [
+                'title' => 'Posts | ' . env('APP_NAME'),
+            ]);
     }
 }

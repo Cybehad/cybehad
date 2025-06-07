@@ -16,4 +16,30 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+    public function scopeWithParent($query)
+    {
+        return $query->with('parent');
+    }
+    public function scopeWithChildren($query)
+    {
+        return $query->with('children');
+    }
+    public function scopeWithPosts($query)
+    {
+        return $query->with('posts');
+    }
+    public function scopeWithAll($query)
+    {
+        return $query->with(['parent', 'children', 'posts']);
+    }
+
 }

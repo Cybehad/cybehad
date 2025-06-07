@@ -15,12 +15,18 @@ use Livewire\Component;
 class PostShow extends Component
 {
     public $post;
-    public $commentContent;
+    public $commentContent = '';
     public $rating = 0;
     public $isSaved = false;
 
     protected $listeners = ['commentAdded' => '$refresh'];
 
+    protected $rules = [
+        'commentContent' => 'required|min:3|max:1000',
+    ];
+    protected $rateLimiting = [
+        'addComment' => '1,5', // 1 attempt every 5 seconds
+    ];
     public function mount(Post $post)
     {
         $this->post = $post;
@@ -38,7 +44,21 @@ class PostShow extends Component
                 ->exists();
         }
     }
+    public function deleteComment($commentId)
+    {
+        $comment = Comment::findOrFail($commentId);
 
+        if (!$comment) return;
+
+        if (
+            Auth::check() &&
+            ($comment->user_id === Auth::id() || $this->post->user_id === Auth::id())
+        ) {
+            $comment->delete();
+            $this->post->refresh();
+            $this->dispatch('commentAdded');
+        }
+    }
     public function addComment()
     {
         $this->validate([
@@ -120,6 +140,7 @@ class PostShow extends Component
             'likeCount' => $this->post->likes()->count(),
             'userRating' => Auth::check() ? $this->post->ratings()->where('user_id', Auth::id())->first() : null,
             'hasLiked' => Auth::check() ? $this->post->likes()->where('user_id', Auth::id())->exists() : false,
-        ]);
+        ])
+            ->layout('components.layouts.custom');
     }
 }

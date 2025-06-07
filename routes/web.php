@@ -1,20 +1,41 @@
 <?php
 
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsletterController;
-use App\Livewire\PostList;
-use App\Livewire\PostShow;
+use App\Livewire\Advertising\AdvertisingSpot;
+use App\Livewire\Categories\CategoryForm;
+use App\Livewire\Categories\CategoryList;
+use App\Livewire\Comments\CommentList;
+use App\Livewire\Frontend\PostShow;
+use App\Livewire\PostShow as PostShowAlias; // Alias to avoid conflict
+use App\Livewire\Posts\PostForm;
+use App\Livewire\Posts\PostList;
+use App\Livewire\PostList as PostListAlias; // Alias to avoid conflict
+use App\Livewire\Products\FeaturedProducts;
+use App\Livewire\Tags\TagForm;
+use App\Livewire\Tags\TagList;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+// Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Volt::route('/posts', PostList::class)->name('posts.index');
-
+Volt::route('/posts', PostListAlias::class)->name('posts.index');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+Route::get('/services', function () {
+    return view('services');
+})->name('services');
 
 Route::middleware(['auth'])->group(function () {
-    Volt::route('/posts/{post}', PostShow::class)->name('posts.show');
-    Volt::route('/posts/category/{category}', PostList::class)->name('posts.category');
-    Volt::route('/posts/tags/{tag}', PostList::class)->name('posts.tag');
+    Volt::route('/posts/{post}', PostShowAlias::class)->name('posts.show');
+    Volt::route('/profile/{user}', PostShowAlias::class)->name('profile');
+    Volt::route('/posts/category/{category}', PostListAlias::class)->name('posts.category');
+    Volt::route('/posts/tags/{tag}', PostListAlias::class)->name('posts.tag');
 });
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
     ->name('newsletter.subscribe');
@@ -31,36 +52,38 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-
-    Route::prefix('admin')->group(function () {
-        Volt::route('/', 'admin.home')->name('admin.home');
-
-        Volt::route('/users', 'admin.users.list')
-            ->name('admin.users.index');
-        Volt::route('/users/create', 'admin.users.create')
-            ->name('admin.users.create');
-        Volt::route('/users/{user}/show', 'admin.users.show')
-            ->name('admin.users.show');
-        Volt::route('/users/{user}/edit', 'admin.users.edit')
-            ->name('admin.users.edit');
-        Volt::route('/users/{user}/delete', 'admin.users.delete')
-            ->name('admin.users.delete');
-
-            Volt::route('/reports', 'admin.reports.list')
-            ->name('admin.reports.index');
-
-        Volt::route('/posts', 'admin.posts.list')
-            ->name('admin.posts.index');
-
-        Volt::route('/posts/create', 'admin.posts.create')
-            ->name('admin.posts.create');
-
-        Volt::route('/posts/{post}/show', 'admin.posts.show')
-            ->name('admin.posts.show');
-
-        Volt::route('/posts/{post}/edit', 'admin.posts.edit')
-            ->name('admin.posts.edit');
-    });
 });
+
+// Admin Routes
+Route::middleware(['auth'])
+    ->prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('posts.admin.index');
+        })->name('admin.dashboard');
+        // Posts
+        Route::get('/posts', PostList::class)->name('posts.admin.index');
+        Route::get('/posts/create', PostForm::class)->name('posts.admin.create');
+        Route::get('/posts/{post}/edit', PostForm::class)->name('posts.admin.edit');
+
+        // Categories
+        Route::get('/categories', CategoryList::class)->name('categories.index');
+        Route::get('/categories/create', CategoryForm::class)->name('categories.create');
+        Route::get('/categories/{category}/edit', CategoryForm::class)->name('categories.edit');
+
+        // Tags
+        Route::get('/tags', TagList::class)->name('tags.index');
+        Route::get('/tags/create', TagForm::class)->name('tags.create');
+        Route::get('/tags/{tag}/edit', TagForm::class)->name('tags.edit');
+
+        // Comments
+        Route::get('/comments', CommentList::class)->name('comments.index');
+
+        // Advertising
+        // Route::get('/advertising', AdvertisingSpot::class)->name('advertising.index');
+
+        // Products
+        Route::get('/products', FeaturedProducts::class)->name('products.index');
+    });
+// Route::get('/posts/{post}', PostShow::class)->name('posts.show');
 
 require __DIR__ . '/auth.php';
